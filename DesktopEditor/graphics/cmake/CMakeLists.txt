@@ -350,6 +350,40 @@ set_source_files_properties(
     PROPERTIES COMPILE_OPTIONS "-w"
 )
 
+set_source_files_properties(
+    ${DESKTOP_EDITOR_ROOT_DIR}/cximage/CxImage/tif_xfile.cpp
+    ${DESKTOP_EDITOR_ROOT_DIR}/cximage/CxImage/ximabmp.cpp
+    ${DESKTOP_EDITOR_ROOT_DIR}/cximage/CxImage/ximadsp.cpp
+    ${DESKTOP_EDITOR_ROOT_DIR}/cximage/CxImage/ximaenc.cpp
+    ${DESKTOP_EDITOR_ROOT_DIR}/cximage/CxImage/ximaexif.cpp
+    ${DESKTOP_EDITOR_ROOT_DIR}/cximage/CxImage/ximage.cpp
+    ${DESKTOP_EDITOR_ROOT_DIR}/cximage/CxImage/ximagif.cpp
+    ${DESKTOP_EDITOR_ROOT_DIR}/cximage/CxImage/ximahist.cpp
+    ${DESKTOP_EDITOR_ROOT_DIR}/cximage/CxImage/ximaico.cpp
+    ${DESKTOP_EDITOR_ROOT_DIR}/cximage/CxImage/ximainfo.cpp
+    ${DESKTOP_EDITOR_ROOT_DIR}/cximage/CxImage/ximaint.cpp
+    ${DESKTOP_EDITOR_ROOT_DIR}/cximage/CxImage/ximajpg.cpp
+    ${DESKTOP_EDITOR_ROOT_DIR}/cximage/CxImage/ximalpha.cpp
+    ${DESKTOP_EDITOR_ROOT_DIR}/cximage/CxImage/ximalyr.cpp
+    ${DESKTOP_EDITOR_ROOT_DIR}/cximage/CxImage/ximapal.cpp
+    ${DESKTOP_EDITOR_ROOT_DIR}/cximage/CxImage/ximapcx.cpp
+    ${DESKTOP_EDITOR_ROOT_DIR}/cximage/CxImage/ximapng.cpp
+    ${DESKTOP_EDITOR_ROOT_DIR}/cximage/CxImage/ximapsd.cpp
+    ${DESKTOP_EDITOR_ROOT_DIR}/cximage/CxImage/ximasel.cpp
+    ${DESKTOP_EDITOR_ROOT_DIR}/cximage/CxImage/ximatga.cpp
+    ${DESKTOP_EDITOR_ROOT_DIR}/cximage/CxImage/ximath.cpp
+    ${DESKTOP_EDITOR_ROOT_DIR}/cximage/CxImage/ximatif.cpp
+    ${DESKTOP_EDITOR_ROOT_DIR}/cximage/CxImage/ximatran.cpp
+    ${DESKTOP_EDITOR_ROOT_DIR}/cximage/CxImage/ximawbmp.cpp
+    ${DESKTOP_EDITOR_ROOT_DIR}/cximage/CxImage/ximawmf.cpp
+    ${DESKTOP_EDITOR_ROOT_DIR}/cximage/CxImage/ximawnd.cpp
+    ${DESKTOP_EDITOR_ROOT_DIR}/cximage/CxImage/xmemfile.cpp
+    ${GRAPHICS_ROOT_DIR}/pro/libpsd_pri.c
+    ${GRAPHICS_ROOT_DIR}/pro/libpsd_pri2.c
+    ${GRAPHICS_ROOT_DIR}/pro/libpsd_pri3.c
+    PROPERTIES COMPILE_OPTIONS "$<IF:$<CXX_COMPILER_ID:MSVC>,/w,-w>"
+)
+
 target_sources(graphics PRIVATE
 
     ${KATANA_INSTALL_DIR_ABS}/src/foundation.h
