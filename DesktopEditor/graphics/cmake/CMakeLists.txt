@@ -338,6 +338,19 @@ target_sources(graphics PRIVATE
     ${KATANA_INSTALL_DIR_ABS}/src/parser.c
     ${KATANA_INSTALL_DIR_ABS}/src/selector.c
     ${KATANA_INSTALL_DIR_ABS}/src/tokenizer.c
+)
+
+set_source_files_properties(
+    ${KATANA_INSTALL_DIR_ABS}/src/foundation.c
+    ${KATANA_INSTALL_DIR_ABS}/src/katana.lex.c
+    ${KATANA_INSTALL_DIR_ABS}/src/katana.tab.c
+    ${KATANA_INSTALL_DIR_ABS}/src/parser.c
+    ${KATANA_INSTALL_DIR_ABS}/src/selector.c
+    ${KATANA_INSTALL_DIR_ABS}/src/tokenizer.c
+    PROPERTIES COMPILE_OPTIONS "-w"
+)
+
+target_sources(graphics PRIVATE
 
     ${KATANA_INSTALL_DIR_ABS}/src/foundation.h
     ${KATANA_INSTALL_DIR_ABS}/src/katana.h
@@ -788,10 +801,14 @@ if( MSVC )
     )
 endif()
 
+target_include_directories(graphics SYSTEM PRIVATE
+    ${DESKTOP_EDITOR_ROOT_DIR}/agg-2.4/include
+    ${DESKTOP_EDITOR_ROOT_DIR}/agg-2.4/svg
+)
+
 target_include_directories(graphics PRIVATE
     ${EO_CORE_3RD_PARTY_INSTALL_DIR}
     ${KATANA_INSTALL_DIR_ABS}/src
-	${DESKTOP_EDITOR_ROOT_DIR}/agg-2.4/include
     ${ZLIBNG_INCLUDEDIR_ABS}
 
     # freetype.pri
