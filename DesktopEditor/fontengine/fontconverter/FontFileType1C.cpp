@@ -91,9 +91,9 @@ namespace NSFontConverter
 		{
 			for ( int nIndex = 0; nIndex < 256; ++nIndex )
 			{
-				MemUtilsFree( m_arrEncoding[ nIndex ] );
+				MemUtilsFree( const_cast<char*>(m_arrEncoding[ nIndex ]) );
 			}
-			MemUtilsFree( m_arrEncoding );
+			MemUtilsFree( const_cast<char**>(m_arrEncoding) );
 		}
 
 		if ( m_pPrivateDicts )
@@ -116,7 +116,7 @@ namespace NSFontConverter
 		return m_seName ? m_seName->GetBuffer() : (char *)NULL;
 	}
 
-	char **CFontFileType1C::GetEncoding()
+	const char **CFontFileType1C::GetEncoding()
 	{
 		return m_arrEncoding;
 	}
@@ -148,7 +148,7 @@ namespace NSFontConverter
 		return pMap;
 	}
 
-	void CFontFileType1C::ToType1(char *sPSName, char **ppNewEncoding, bool bASKII, FontFileOutputFunc pOutputFunc, void *pOutputStream)
+	void CFontFileType1C::ToType1(char *sPSName, const char **ppNewEncoding, bool bASKII, FontFileOutputFunc pOutputFunc, void *pOutputStream)
 	{
 		int nPSNameLen;
 		StringExt *seBuffer;
@@ -278,7 +278,7 @@ namespace NSFontConverter
 		{
 			(*pOutputFunc)( pOutputStream, "256 array\n", 10);
 			(*pOutputFunc)( pOutputStream, "0 1 255 {1 index exch /.notdef put} for\n", 40);
-			char **ppEnc = ppNewEncoding ? ppNewEncoding : m_arrEncoding;
+			const char **ppEnc = ppNewEncoding ? ppNewEncoding : m_arrEncoding;
 			for (int nIndex = 0; nIndex < 256; ++nIndex )
 			{
 				if ( ppEnc[nIndex] )
@@ -2784,7 +2784,7 @@ namespace NSFontConverter
 		}
 		else
 		{
-			m_arrEncoding = (char **)MemUtilsMallocArray(256, sizeof(char *));
+			m_arrEncoding = (const char **)MemUtilsMallocArray(256, sizeof(char *));
 			for (int nIndex = 0; nIndex < 256; ++nIndex)
 			{
 				m_arrEncoding[nIndex] = NULL;
@@ -2811,7 +2811,7 @@ namespace NSFontConverter
 						return;
 					if (m_arrEncoding[ nChar ])
 					{
-						MemUtilsFree(m_arrEncoding[ nChar ]);
+						MemUtilsFree( const_cast<char*>(m_arrEncoding[ nChar ]) );
 					}
 					m_arrEncoding[ nChar ] = CopyString( GetString( m_pnCharset[ nIndex ], sBuffer, &m_bSuccessParsed));
 				}
@@ -2836,7 +2836,7 @@ namespace NSFontConverter
 						{
 							if (m_arrEncoding[ nChar ])
 							{
-								MemUtilsFree(m_arrEncoding[ nChar ]);
+								MemUtilsFree( const_cast<char*>(m_arrEncoding[ nChar ]) );
 							}
 							m_arrEncoding[ nChar ] = CopyString( GetString( m_pnCharset[nCodes], sBuffer, &m_bSuccessParsed ) );
 						}
@@ -2865,7 +2865,7 @@ namespace NSFontConverter
 
 					if (m_arrEncoding[ nChar ])
 					{
-						MemUtilsFree(m_arrEncoding[ nChar ]);
+						MemUtilsFree( const_cast<char*>(m_arrEncoding[ nChar ]) );
 					}
 					m_arrEncoding[ nChar ] = CopyString( GetString( nSID, sBuffer, &m_bSuccessParsed ) );
 				}

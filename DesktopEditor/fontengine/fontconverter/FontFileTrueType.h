@@ -206,7 +206,7 @@ namespace NSFontConverter
         // otherwise it will be left as binary data.  If <psName> is
         // non-NULL, it will be used as the PostScript font name.  (Only
         // useful for OpenType CFF fonts.)
-        void ToType1(char *sPSName, char **ppNewEncoding, bool bASKII, FontFileOutputFunc pOutputFunc, void *pOutputStream );
+        void ToType1(char *sPSName, const char **ppNewEncoding, bool bASKII, FontFileOutputFunc pOutputFunc, void *pOutputStream );
 
         // Convert to a Type 2 CIDFont, suitable for embedding in a
         // PostScript file.  <psName> will be used as the PostScript font

@@ -89,7 +89,7 @@ namespace NSFontConverter
 
 	// Character names in the standard order that Apple uses for
 	// their TrueType fonts.
-	static char *c_arrAppleGlyphNames[258] =
+	static const char *c_arrAppleGlyphNames[258] =
 	{
 		".notdef",        "null",           "CR",             "space",
 		"exclam",         "quotedbl",       "numbersign",     "dollar",
@@ -395,7 +395,7 @@ namespace NSFontConverter
 		(*pOutputFunc)( pOutputStream, "FontName currentdict end definefont pop\n", 40);
 	}
 
-	void CFontFileTrueType::ToType1(char *sPSName, char **ppNewEncoding, bool bASKII, FontFileOutputFunc pOutputFunc, void *pOutputStream)
+	void CFontFileTrueType::ToType1(char *sPSName, const char **ppNewEncoding, bool bASKII, FontFileOutputFunc pOutputFunc, void *pOutputStream)
 	{
 		CFontFileType1C *pT1CFF;
 

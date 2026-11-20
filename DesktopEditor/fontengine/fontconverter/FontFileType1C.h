@@ -167,7 +167,7 @@ namespace NSFontConverter
 
         // Return the encoding as an array of 256 names (some may be
         // NULL). Used only for 8-bit fonts.
-        char **GetEncoding();
+        const char **GetEncoding();
 
         unsigned short *GetCIDToGIDMap(int *arrCIDs);
 
@@ -177,7 +177,7 @@ namespace NSFontConverter
         // font.  If <ascii> is true the eexec section will be hex-encoded,
         // otherwise it will be left as binary data.  If <psName> is non-NULL,
         // it will be used as the PostScript font name.
-        void ToType1(char *sPSName, char **ppNewEncoding, bool bASKII, FontFileOutputFunc pOutputFunc, void *pOutputStream);
+        void ToType1(char *sPSName, const char **ppNewEncoding, bool bASKII, FontFileOutputFunc pOutputFunc, void *pOutputStream);
 
         // Convert to a Type 0 CIDFont, suitable for embedding in a
         // PostScript file.  <psName> will be used as the PostScript font
@@ -248,7 +248,7 @@ namespace NSFontConverter
     private:
 
         StringExt         *m_seName;
-        char             **m_arrEncoding;
+        const char       **m_arrEncoding;
 
         Type1CIndex        m_oNameIndex;
         Type1CIndex        m_oTopDictIndex;

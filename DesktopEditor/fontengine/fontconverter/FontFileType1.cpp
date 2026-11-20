@@ -180,9 +180,9 @@ namespace NSFontConverter
 		{
 			for (int nIndex = 0; nIndex < 256; ++nIndex )
 			{
-				MemUtilsFree( m_arrEncoding[nIndex] );
+				MemUtilsFree( const_cast<char*>(m_arrEncoding[nIndex]) );
 			}
-			MemUtilsFree(m_arrEncoding);
+			MemUtilsFree( const_cast<char**>(m_arrEncoding) );
 		}
 	}
 
@@ -194,7 +194,7 @@ namespace NSFontConverter
 		return m_sName;
 	}
 
-	char **CFontFileType1::GetEncoding()
+	const char **CFontFileType1::GetEncoding()
 	{
 		if (!m_bParsed)
 			Parse();
@@ -202,7 +202,7 @@ namespace NSFontConverter
 		return m_arrEncoding;
 	}
 
-	void CFontFileType1::WriteEncoded(char **ppNewEncoding, FontFileOutputFunc pOutputFunc, void *pOutputStream)
+	void CFontFileType1::WriteEncoded(const char **ppNewEncoding, FontFileOutputFunc pOutputFunc, void *pOutputStream)
 	{
 		char sBuffer[512];
 		char *sLine, *sLine2, *sCurChar;
@@ -366,7 +366,7 @@ namespace NSFontConverter
 			}
 			else if (!m_arrEncoding && !strncmp( sLine, "/Encoding 256 array", 19))
 			{
-				m_arrEncoding = (char **)MemUtilsMallocArray(256, sizeof(char *));
+				m_arrEncoding = (const char **)MemUtilsMallocArray(256, sizeof(char *));
 				int nJ = 0;
 				for (nJ = 0; nJ < 256; ++nJ )
 				{

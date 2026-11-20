@@ -73,7 +73,7 @@ namespace NSFontConverter
 		fmtSpace
 	};
 
-	static char *c_arrsFormatStrings[] =
+	static const char *c_arrsFormatStrings[] =
 	{
 		"d",  "x",  "o",  "b",  "ud",  "ux",  "uo",  "ub",
 		"ld", "lx", "lo", "lb", "uld", "ulx", "ulo", "ulb",
