@@ -22,8 +22,7 @@
  * terms at http://creativecommons.org/licenses/by-sa/4.0/legalcode
  *
  */
-#pragma once
-
+ 
 #include "agg_math.h"
 #include "./MetafileToRenderer.h"
 #include "../fontengine/FontManager.h"
@@ -429,6 +428,7 @@ namespace NSOnlineOfficeBinToPdf
 						pRenderer->PenDashPattern(pDash, nCountDash);
 						delete[] pDash;
 					}
+					[[fallthrough]];
 				}
 				default:
 					pRenderer->put_PenDashStyle(nDashType);
