@@ -181,7 +181,6 @@ target_sources(graphics PRIVATE
 
     # !disable_cximage_all {
         ${DESKTOP_EDITOR_ROOT_DIR}/raster/JBig2/source/JBig2File.cpp
-        ${JBIG2ENC_SOURCES}
         ${DESKTOP_EDITOR_ROOT_DIR}/raster/Jp2/J2kFile.cpp
         ${DESKTOP_EDITOR_ROOT_DIR}/raster/Jp2/Reader.cpp
         ${DESKTOP_EDITOR_ROOT_DIR}/raster/PICT/PICFile.cpp
@@ -856,11 +855,7 @@ target_include_directories(graphics PRIVATE
     # brotli.pri
     ${BROTLI_INSTALL_DIR_ABS}/c/include
 
-    ${JBIG2ENC_SOURCES_DIR}
 )
-
-# jbig2enc reports its version through jbig2_version()
-set_source_files_properties(${JBIG2ENC_SOURCES} PROPERTIES COMPILE_DEFINITIONS "VERSION=\"0.32\"")
 
 if( MSVC )
     target_include_directories(graphics PRIVATE
@@ -910,7 +905,7 @@ target_link_libraries(graphics PUBLIC
 )
 
 target_link_libraries(graphics PUBLIC z)
-target_link_libraries(graphics PRIVATE jpeg png tiff webp webpdemux heif leptonica)
+target_link_libraries(graphics PRIVATE jpeg png tiff webp webpdemux heif leptonica libjbig2enc)
 
 if(WIN32)
     target_link_libraries(graphics PUBLIC
