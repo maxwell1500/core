@@ -182,6 +182,15 @@ if( EMSCRIPTEN )
         INTERFACE_INCLUDE_DIRECTORIES "${LEPTONICA_INSTALL_DIR_ABS}/include"
     )
 
+    # Setup hyphen (WASM)
+    set(HYPHEN_INSTALL_DIR "${EO_CORE_3RD_PARTY_INSTALL_DIR}/hyphen")
+    get_filename_component(HYPHEN_INSTALL_DIR_ABS "${HYPHEN_INSTALL_DIR}" ABSOLUTE)
+    add_library(hyphen STATIC IMPORTED GLOBAL)
+    set_target_properties(hyphen PROPERTIES
+        IMPORTED_LOCATION "${HYPHEN_INSTALL_DIR_ABS}/lib/libhyphen.a"
+        INTERFACE_INCLUDE_DIRECTORIES "${HYPHEN_INSTALL_DIR_ABS}/include"
+    )
+
 else()
 
     if(NOT THIRD_PARTY_PREPARED)
@@ -586,6 +595,22 @@ else()
             IMPORTED_LOCATION "${LEPTONICA_INSTALL_DIR_ABS}/lib/libleptonica.a"
             INTERFACE_INCLUDE_DIRECTORIES "${LEPTONICA_INSTALL_DIR_ABS}/include"
             INTERFACE_LINK_LIBRARIES m
+        )
+    endif()
+
+    # Setup hyphen
+    set(HYPHEN_INSTALL_DIR "${EO_CORE_3RD_PARTY_INSTALL_DIR}/hyphen")
+    get_filename_component(HYPHEN_INSTALL_DIR_ABS "${HYPHEN_INSTALL_DIR}" ABSOLUTE)
+    add_library(hyphen STATIC IMPORTED GLOBAL)
+    if( MSVC )
+        set_target_properties(hyphen PROPERTIES
+            IMPORTED_LOCATION "${HYPHEN_INSTALL_DIR_ABS}/lib/hyphen.lib"
+            INTERFACE_INCLUDE_DIRECTORIES "${HYPHEN_INSTALL_DIR_ABS}/include"
+        )
+    else()
+        set_target_properties(hyphen PROPERTIES
+            IMPORTED_LOCATION "${HYPHEN_INSTALL_DIR_ABS}/lib/libhyphen.a"
+            INTERFACE_INCLUDE_DIRECTORIES "${HYPHEN_INSTALL_DIR_ABS}/include"
         )
     endif()
 

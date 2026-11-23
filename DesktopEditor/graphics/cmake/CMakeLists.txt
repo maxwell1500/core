@@ -33,9 +33,6 @@ get_filename_component(HARFBUZZ_INSTALL_DIR_ABS "${HARFBUZZ_INSTALL_DIR}" ABSOLU
 set(BROTLI_INSTALL_DIR "${EO_CORE_3RD_PARTY_INSTALL_DIR}/brotli")
 get_filename_component(BROTLI_INSTALL_DIR_ABS "${BROTLI_INSTALL_DIR}" ABSOLUTE)
 
-set(HYPHEN_INSTALL_DIR "${EO_CORE_3RD_PARTY_INSTALL_DIR}/hyphen")
-get_filename_component(HYPHEN_INSTALL_DIR_ABS "${HYPHEN_INSTALL_DIR}" ABSOLUTE)
-
 add_library(graphics SHARED
     ${METAFILE_SOURCER_DIR}/MetaFile.h
     ${METAFILE_SOURCER_DIR}/Common/MetaFile.h
@@ -905,7 +902,7 @@ target_link_libraries(graphics PUBLIC
 )
 
 target_link_libraries(graphics PUBLIC z)
-target_link_libraries(graphics PRIVATE jpeg png tiff webp webpdemux heif leptonica libjbig2enc)
+target_link_libraries(graphics PRIVATE jpeg png tiff webp webpdemux heif leptonica libjbig2enc hyphen)
 
 if(WIN32)
     target_link_libraries(graphics PUBLIC

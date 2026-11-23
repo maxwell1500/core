@@ -268,8 +268,6 @@ target_include_directories(${PROJECT_NAME} PRIVATE
     ${DESKTOP_ROOT}/graphics/pro/js/wasm/src/lib
     ${EO_CORE_3RD_PARTY_INSTALL_DIR}/harfbuzz/src
     ${EO_CORE_3RD_PARTY_INSTALL_DIR}/brotli/c/include
-    ${EO_CORE_3RD_PARTY_INSTALL_DIR}/hyphen/hyphen/c/include
-    ${EO_CORE_3RD_PARTY_INSTALL_DIR}/hyphen
     ${EO_CORE_3RD_PARTY_INSTALL_DIR}
     ${CORE_ROOT}/OfficeUtils/src
     ${ZLIBNG_WASM_INCDIR}
@@ -290,13 +288,14 @@ target_link_directories(${PROJECT_NAME} PRIVATE
 # -------------------------------------------------
 
 target_link_libraries(${PROJECT_NAME} PRIVATE
-    minizip # minizip-ng
-    z       # libz-ng
-    jpeg    # libjpeg-turbo
-    png     # libpng
-    tiff    # libtiff
-    webp    # libwebp
+    minizip   # minizip-ng
+    z         # libz-ng
+    jpeg      # libjpeg-turbo
+    png       # libpng
+    tiff      # libtiff
+    webp      # libwebp
     webpdemux
+    hyphen
 )
 
 # -------------------------------------------------
