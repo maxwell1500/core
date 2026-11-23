@@ -580,7 +580,7 @@ namespace NSFontConverter
 							else if ( L"/StdHW" == sToken )
 							{
 								// This contains an array with one value
-								double dTemp[1];
+								double dTemp[1] = {};
 
 								if ( ReadDoubleArray<1>( sEexec + nIndex + 2, nEexecLen - nIndex - 2, dTemp ) > 0 )
 								{
@@ -591,7 +591,7 @@ namespace NSFontConverter
 							else if ( L"/StdVW" == sToken )
 							{
 								// This contains an array with one value
-								double dTemp[1];
+								double dTemp[1] = {};
 								if ( ReadDoubleArray<1>( sEexec + nIndex + 2, nEexecLen - nIndex - 2, dTemp ) > 0 )
 								{
 									m_oPrivateDict.bHasStdHW = true;
@@ -808,7 +808,12 @@ namespace NSFontConverter
 				else if ( nValue <= 254 )
 					nValue = -( ( nValue - 251 ) * 256 ) - (int)( sString[++nIndex] ) - 108;
 				else
-					nValue = ( sString[++nIndex] & 0xff ) << 24 | ( sString[++nIndex] & 0xff ) << 16 | ( sString[++nIndex] & 0xff ) << 8 | ( sString[++nIndex] & 0xff ) << 0;
+				{
+					nValue  = ( sString[++nIndex] & 0xff ) << 24;
+					nValue |= ( sString[++nIndex] & 0xff ) << 16;
+					nValue |= ( sString[++nIndex] & 0xff ) << 8;
+					nValue |= ( sString[++nIndex] & 0xff );
+				}
 
 				sCharString.push_back( Type1CharstringItem( nValue, false ) );
 			}

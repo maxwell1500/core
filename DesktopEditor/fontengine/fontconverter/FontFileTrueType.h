@@ -111,7 +111,7 @@ namespace NSFontConverter
 
     struct T42Table
     {
-        char *sTag;		 // 4-byte name
+        const char *sTag; // 4-byte name
         bool  bRequired; // Is TrueType required by the specification?
     };
 
@@ -249,7 +249,7 @@ namespace NSFontConverter
         unsigned int ComputeTableChecksum(unsigned char *sData, int nLength);
         void Parse();
         void ReadPostTable();
-        int  SeekTable(char *sTag);
+        int  SeekTable(const char *sTag);
 
     private:
 

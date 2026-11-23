@@ -56,7 +56,7 @@ bool CFontConverter::ToOTF(std::wstring sFontIn, std::wstring sFontOut, unsigned
 
 	NSFontConverter::CFontFileTrueType* pTTF = NSFontConverter::CFontFileTrueType::LoadFromFile( sFontIn.c_str() );
 	FT_Error oerrr;
-	if ( oerrr = FT_Open_Face( pLibrary, &oOpenArgs, 0, &pFace ) )
+	if ( (oerrr = FT_Open_Face( pLibrary, &oOpenArgs, 0, &pFace )) )
 	{
 		FT_Done_FreeType( pLibrary );
 		RELEASEARRAYOBJECTS(pBaseAddress);
@@ -165,7 +165,7 @@ bool CFontConverter::ToOTF(std::wstring sFontIn, std::wstring sFontOut, unsigned
 							// If a given symbol is a composite (composite glyph), then we must take into account all its child symbols (subglyphs)
 							if ( bFound && 0 == FT_Load_Glyph( pFace, nGID, FT_LOAD_NO_SCALE | FT_LOAD_NO_RECURSE ) )
 							{
-								for ( int nSubIndex = 0; nSubIndex < pFace->glyph->num_subglyphs; nSubIndex++ )
+								for ( FT_UInt nSubIndex = 0; nSubIndex < pFace->glyph->num_subglyphs; nSubIndex++ )
 								{
 									FT_Int       nSubGID;
 									FT_UInt      unFlags;
@@ -238,7 +238,7 @@ bool CFontConverter::ToOTF2(std::wstring sFontIn, unsigned int* pSymbols, int nC
 
 	NSFontConverter::CFontFileTrueType* pTTF = NSFontConverter::CFontFileTrueType::LoadFromFile( sFontIn.c_str() );
 	FT_Error oerrr;
-	if ( oerrr = FT_Open_Face( pLibrary, &oOpenArgs, lFaceIndex, &pFace ) )
+	if ( (oerrr = FT_Open_Face( pLibrary, &oOpenArgs, lFaceIndex, &pFace )) )
 	{
 		FT_Done_FreeType( pLibrary );
 		RELEASEARRAYOBJECTS(pBaseAddress);
@@ -347,7 +347,7 @@ bool CFontConverter::ToOTF2(std::wstring sFontIn, unsigned int* pSymbols, int nC
 							// If a given symbol is a composite (composite glyph), then we must take into account all its child symbols (subglyphs)
 							if ( bFound && 0 == FT_Load_Glyph( pFace, nGID, FT_LOAD_NO_SCALE | FT_LOAD_NO_RECURSE ) )
 							{
-								for ( int nSubIndex = 0; nSubIndex < pFace->glyph->num_subglyphs; nSubIndex++ )
+								for ( FT_UInt nSubIndex = 0; nSubIndex < pFace->glyph->num_subglyphs; nSubIndex++ )
 								{
 									FT_Int       nSubGID;
 									FT_UInt      unFlags;

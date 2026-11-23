@@ -1435,7 +1435,7 @@ namespace NSFontConverter
 	void CFontFileTrueType::ConvertEncoding   (char **ppEncoding, FontFileOutputFunc pOutputFunc, void *pOutputStream)
 	{
 		// converting encoding to Type42
-		char *sName;
+		const char *sName;
 		StringExt *seBuffer;
 
 		(*pOutputFunc)( pOutputStream, "/Encoding 256 array\n", 20);
@@ -1468,7 +1468,7 @@ namespace NSFontConverter
 
 	void CFontFileTrueType::ConvertCharStrings(char **ppEncoding, unsigned short *pnCodeToGID, FontFileOutputFunc pOutputFunc, void *pOutputStream)
 	{
-		char *sName;
+		const char *sName;
 		StringExt *seBuffer;
 		char sBuf[16];
 
@@ -1889,8 +1889,10 @@ namespace NSFontConverter
 			{
 			case 3:
 				nWord |= (sData[nTemp + 2] & 0xff) <<  8;
+				[[fallthrough]];
 			case 2:
 				nWord |= (sData[nTemp + 1] & 0xff) << 16;
+				[[fallthrough]];
 			case 1:
 				nWord |= (sData[nTemp]     & 0xff) << 24;
 				break;
@@ -1941,7 +1943,7 @@ namespace NSFontConverter
 			m_pTables[nIndex].unChecksum = GetU32BE( nPos + 4, &m_bSuccess);
 			m_pTables[nIndex].nOffset = (int)GetU32BE( nPos + 8, &m_bSuccess);
 			m_pTables[nIndex].nLen = (int)GetU32BE( nPos + 12, &m_bSuccess);
-			if ( m_pTables[nIndex].nOffset + m_pTables[nIndex].nLen < m_pTables[nIndex].nOffset || m_pTables[nIndex].nOffset + m_pTables[nIndex].nLen > m_nLen )
+			if ( m_pTables[nIndex].nOffset + m_pTables[nIndex].nLen < m_pTables[nIndex].nOffset || static_cast<unsigned int>(m_pTables[nIndex].nOffset + m_pTables[nIndex].nLen) > m_nLen )
 			{
 				m_bSuccess = false;
 			}
@@ -2025,7 +2027,7 @@ namespace NSFontConverter
 				else
 					nPos = GetU16BE(m_pTables[nIndex].nOffset + nJ * 2, &m_bSuccess);
 
-				if ( nPos < 0 || nPos > m_nLen )
+				if ( nPos < 0 || static_cast<unsigned int>(nPos) > m_nLen )
 					m_bSuccess = false;
 			}
 			if ( !m_bSuccess )
@@ -2126,7 +2128,7 @@ error:
 		}
 	}
 
-	int CFontFileTrueType::SeekTable(char *sTag)
+	int CFontFileTrueType::SeekTable(const char *sTag)
 	{
 		unsigned int nTagIndex = ( ( sTag[0] & 0xff ) << 24 ) | ( ( sTag[1] & 0xff ) << 16 ) | ( ( sTag[2] & 0xff ) << 8 ) | ( sTag[3] & 0xff );
 		for ( int nIndex = 0; nIndex < m_nTablesCount; ++nIndex )

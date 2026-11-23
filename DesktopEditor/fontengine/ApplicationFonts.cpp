@@ -1549,7 +1549,7 @@ void CFontList::CheckLoadFromSelectionBin(const std::wstring& strDirectory, BYTE
 		Add(pFontInfo);
 	}
 
-	if ((_pBuffer - pBuffer) < nLen)
+	if (static_cast<DWORD>(_pBuffer - pBuffer) < nLen)
 	{
 		InitializeRanges(_pBuffer);
 	}

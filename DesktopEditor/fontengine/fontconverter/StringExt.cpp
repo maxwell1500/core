@@ -176,7 +176,7 @@ namespace NSFontConverter
 		return new StringExt( pData, nLen );
 	}
 
-	StringExt *StringExt::Format(char *sFormat, ...)
+	StringExt *StringExt::Format(const char *sFormat, ...)
 	{
 		va_list sArgList;
 		StringExt *seResult = new StringExt();
@@ -186,7 +186,7 @@ namespace NSFontConverter
 		return seResult;
 	}
 
-	StringExt *StringExt::FormatV(char *sFormat, va_list sArgList)
+	StringExt *StringExt::FormatV(const char *sFormat, va_list sArgList)
 	{
 		StringExt *seResult = new StringExt();
 		seResult->AppendFormatV( sFormat, sArgList );
@@ -242,7 +242,7 @@ namespace NSFontConverter
 		return this;
 	}
 
-	StringExt *StringExt::AppendFormat(char *sFormat, ...)
+	StringExt *StringExt::AppendFormat(const char *sFormat, ...)
 	{
 		va_list sArgList;
 		va_start( sArgList, sFormat );
@@ -251,7 +251,7 @@ namespace NSFontConverter
 		return this;
 	}
 
-	StringExt *StringExt::AppendFormatV(char *sFormat, va_list sArgList)
+	StringExt *StringExt::AppendFormatV(const char *sFormat, va_list sArgList)
 	{
 		StringExtFormatArg uArg;
 		int nIndex, nWidth, nPrecision;
@@ -259,7 +259,8 @@ namespace NSFontConverter
 		StringExtFormatType eFormatType;
 		char sBuffer[65];
 		int nLen;
-		char *pCur, *pTemp, *sTemp;
+		const char *pCur, *pTemp;
+		char *sTemp;
 
 		int nArgsLen = 0;
 		int nArgsSize = 8;
@@ -571,7 +572,7 @@ namespace NSFontConverter
 		double dTemp = 0;
 		int nInt;
 
-		if ( bNegative = ( dValue < 0 ) )
+		if ( (bNegative = ( dValue < 0 )) )
 			dValue = -dValue;
 
 		dValue = floor( dValue * pow( (double)10, nPrecision) + 0.5);

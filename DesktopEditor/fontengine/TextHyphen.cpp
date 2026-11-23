@@ -92,8 +92,8 @@ HyphenDict* hnj_hyphen_load_stream(std::istream &in)
 	}
 	else
 	{
-		strncpy(dict[k]->cset, dict[0]->cset, sizeof(dict[k]->cset)-1);
-		dict[k]->cset[sizeof(dict[k]->cset)-1] = '\0';
+		memcpy(dict[k]->cset, dict[0]->cset, sizeof(dict[k]->cset) - 1);
+		dict[k]->cset[sizeof(dict[k]->cset) - 1] = '\0';
 		dict[k]->utf8 = dict[0]->utf8;
 	}
 
@@ -262,7 +262,7 @@ namespace NSHyphen
 		{
 			if (m_pLastDict)
 			{
-				if (m_nCacheSize > 0 && m_mapDicts.size() == m_nCacheSize)
+				if (m_nCacheSize > 0 && m_mapDicts.size() == static_cast<size_t>(m_nCacheSize))
 				{
 					std::map<int, HyphenDict*>::iterator first = m_mapDicts.begin();
 					delete first->second;
@@ -333,7 +333,7 @@ namespace NSHyphen
 		char* Process(const int& lang, const char* word, const int& len)
 		{
 			// resize 2x
-			if (len + 5 > m_nHyphenVectorSize)
+			if (static_cast<size_t>(len + 5) > m_nHyphenVectorSize)
 			{
 				delete[] m_pHyphenVector;
 				m_nHyphenVectorSize = 2 * (len + 5);

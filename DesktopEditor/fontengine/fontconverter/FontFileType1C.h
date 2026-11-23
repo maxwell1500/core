@@ -195,11 +195,11 @@ namespace NSFontConverter
     private:
 
         CFontFileType1C(char *sBuffer, int nLen, bool bFreeData);
-        void EexecConvertGlyph(Type1CEexecBuf *pEexecBuf, char *sGlyphName, int nOffset, int nBytes, Type1CIndex *pSubrIndex, Type1CPrivateDict *pDict);
+        void EexecConvertGlyph(Type1CEexecBuf *pEexecBuf, const char *sGlyphName, int nOffset, int nBytes, Type1CIndex *pSubrIndex, Type1CPrivateDict *pDict);
         void ConvertGlyph(int nOffset, int nBytes, StringExt *seCharBuffer, Type1CIndex *pSubrIndex, Type1CPrivateDict *pDict, bool bTop);
         void ConvertGlyphWidth(bool bUseOperation, StringExt *seCharBuffer, Type1CPrivateDict *pDict);
         void ConvertNum(double dValue, bool bIsFloat, StringExt *seCharBuffer);
-        void EexecWrite(Type1CEexecBuf *pEexecBuf, char *sBuffer);
+        void EexecWrite(Type1CEexecBuf *pEexecBuf, const char *sBuffer);
         void EexecWriteCharString(Type1CEexecBuf *pEexecBuf, unsigned char *sBuffer, int nLen);
         bool Parse();
         void ReadTopDict();
@@ -232,8 +232,10 @@ namespace NSFontConverter
             {
             case 3:
                 nWord |= (sData[nTemp + 2] & 0xff) <<  8;
+                [[fallthrough]];
             case 2:
                 nWord |= (sData[nTemp + 1] & 0xff) << 16;
+                [[fallthrough]];
             case 1:
                 nWord |= (sData[nTemp]     & 0xff) << 24;
                 break;

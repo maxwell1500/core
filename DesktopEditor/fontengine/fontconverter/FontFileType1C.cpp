@@ -746,7 +746,7 @@ namespace NSFontConverter
 			}
 		}
 
-		delete pTables;
+		MemUtilsFree(pTables);
 	}
 
 	void CFontFileType1C::ToCIDType0(char *sPSName, FontFileOutputFunc pOutputFunc, void *pOutputStream)
@@ -1449,7 +1449,7 @@ namespace NSFontConverter
 		MemUtilsFree(arrCIDMap);
 	}
 
-	void CFontFileType1C::EexecConvertGlyph( Type1CEexecBuf *pEexecBuffer, char *sGlyphName, int nOffset, int nBytes, Type1CIndex *pSubrIndex, Type1CPrivateDict *pDict)
+	void CFontFileType1C::EexecConvertGlyph( Type1CEexecBuf *pEexecBuffer, const char *sGlyphName, int nOffset, int nBytes, Type1CIndex *pSubrIndex, Type1CPrivateDict *pDict)
 	{
 		StringExt *seCharBuffer = new StringExt();
 		ConvertGlyph( nOffset, nBytes, seCharBuffer, pSubrIndex, pDict, true);
@@ -2279,7 +2279,7 @@ namespace NSFontConverter
 		seCharBuffer->Append( (char *)sBuffer, nLen);
 	}
 
-	void CFontFileType1C::EexecWrite(Type1CEexecBuf *pEexecBuffer, char *sBuffer)
+	void CFontFileType1C::EexecWrite(Type1CEexecBuf *pEexecBuffer, const char *sBuffer)
 	{
 		unsigned char *pCharPtr;
 
@@ -2539,7 +2539,7 @@ namespace NSFontConverter
 	// and read private dict. We also extract FontMatrix.
 	void CFontFileType1C::ReadFD(int nOffset, int nLength, Type1CPrivateDict *pDict)
 	{
-		double arrdFontMatrix[6];
+		double arrdFontMatrix[6] = {};
 		bool bHasFontMatrix = false;
 		int nPrivateSize = 0, nPrivateOffset = 0;
 		int nPos = nOffset;
@@ -3138,12 +3138,12 @@ namespace NSFontConverter
 				*bSuccess = false;
 			}
 			pIndex->nStartPos = nPos + 3 + ( pIndex->nCount + 1 ) * pIndex->nOffsetSize - 1;
-			if ( pIndex->nStartPos < 0 || pIndex->nStartPos >= m_nLen )
+			if ( pIndex->nStartPos < 0 || static_cast<unsigned int>(pIndex->nStartPos) >= m_nLen )
 			{
 				*bSuccess = false;
 			}
 			pIndex->nEndPos = pIndex->nStartPos + GetUVarBE( nPos + 3 + pIndex->nCount * pIndex->nOffsetSize, pIndex->nOffsetSize, bSuccess);
-			if ( pIndex->nEndPos < pIndex->nStartPos || pIndex->nEndPos > m_nLen )
+			if ( pIndex->nEndPos < pIndex->nStartPos || static_cast<unsigned int>(pIndex->nEndPos) > m_nLen )
 			{
 				*bSuccess = false;
 			}
