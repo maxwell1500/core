@@ -503,7 +503,6 @@ namespace MetaFile
 
 			unsigned short* pUtf16 = (unsigned short*)oText.pOutputString;
 			wchar_t wLeading, wTrailing;
-			unsigned int unCode;
 			unsigned int unPos = 0;
 			while (unPos < oText.unChars)
 			{
@@ -519,7 +518,6 @@ namespace MetaFile
 				}
 				else
 				{
-					unCode = (wLeading & 0x3FF) << 10;
 					wTrailing = pUtf16[unPos++];
 					if (wTrailing < 0xDC00 || wTrailing > 0xDFFF)
 					{
@@ -1634,9 +1632,9 @@ namespace MetaFile
 
 		// The write format isn't documented properly, there are a few bytes left at the end, it isn't clear why.
 		unsigned int unSize = oText.GetSize();
-		if (m_ulRecordSize - unSize > 0)
+		if (m_ulRecordSize > unSize)
 			m_oStream.Skip(m_ulRecordSize - unSize);
-		else if (m_ulRecordSize - unSize < 0)
+		else if (m_ulRecordSize < unSize)
 			m_oStream.SeekBack(unSize - m_ulRecordSize);
 
 		DrawTextW(oEmrText, oText.unIGraphicsMode);

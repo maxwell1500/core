@@ -124,7 +124,7 @@ namespace SVG
 
 	void CTSpan::ReadChildrens(CSvgReader& oReader, CSvgFile* pSvgFile)
 	{
-		const int nDepth = oReader.GetDepth();
+		const unsigned int nDepth = oReader.GetDepth();
 		XmlUtils::XmlNodeType eNodeType = XmlUtils::XmlNodeType_EndElement;
 		while (oReader.Read(eNodeType) && oReader.GetDepth() >= nDepth && XmlUtils::XmlNodeType_EndElement != eNodeType)
 		{
@@ -285,7 +285,7 @@ namespace SVG
 		if (m_oText.Underline())
 			nStyle |= (1 << 2);
 
-		float fW, fUndX1, fUndY1, fUndX2, fUndY2, fUndSize;
+		float fW = 0.0f, fUndX1, fUndY1, fUndX2, fUndY2, fUndSize;
 		double dFHeight  = dFontSize;
 
 		if (NULL != m_pFontManager)

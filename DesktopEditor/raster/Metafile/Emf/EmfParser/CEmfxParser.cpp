@@ -563,8 +563,6 @@ namespace MetaFile
 
 		*m_pOutput >> ulPenIndex;
 
-		unsigned int current_size = m_ulRecordSize - 20;
-
 		CEmfLogPen* pPen = new CEmfLogPen();
 		if (!pPen)
 			return SetError();
@@ -581,10 +579,8 @@ namespace MetaFile
 
 		*m_pOutput >> pPen->unNumStyleEntries;
 
-		current_size -= 24;
 		if (pPen->unNumStyleEntries > 0)
 		{
-			current_size -= pPen->unNumStyleEntries * 4;
 			pPen->pStyleEntry = new unsigned int[pPen->unNumStyleEntries];
 			if (!pPen->pStyleEntry)
 			{

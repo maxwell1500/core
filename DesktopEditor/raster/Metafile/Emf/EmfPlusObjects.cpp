@@ -544,6 +544,7 @@ namespace MetaFile
 					CEmfPlusRegionNodePath *pRegionNodePath = (CEmfPlusRegionNodePath*)pNode;
 
 					oClip.SetPath(*pRegionNodePath->GetPath(), unType, oTransform);
+					[[fallthrough]];
 				}
 				case EmfPLusRegionNodeTypeRectF:
 				{

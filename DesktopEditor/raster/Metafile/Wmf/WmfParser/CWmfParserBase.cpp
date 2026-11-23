@@ -745,8 +745,8 @@ namespace MetaFile
 		if (unWidth < static_cast<unsigned int>(std::abs(oNewRect.Right - oNewRect.Left)))
 			oNewRect.Right = oNewRect.Left + unWidth;
 
-		if (unHeight == (oNewRect.Bottom - oNewRect.Top) &&
-		    unWidth  == (oNewRect.Right  - oNewRect.Left))
+		if (static_cast<int>(unHeight) == (oNewRect.Bottom - oNewRect.Top) &&
+		    static_cast<int>(unWidth)  == (oNewRect.Right  - oNewRect.Left))
 			return NULL;
 
 		ULONG nBeginX, nBeginY, nEndX, nEndY;
@@ -989,7 +989,7 @@ namespace MetaFile
 
 		if (NULL != pRegion)
 		{
-			for (unsigned int unScanIndex = 0; unScanIndex < pRegion->shScanCount; ++unScanIndex)
+			for (unsigned int unScanIndex = 0; unScanIndex < static_cast<unsigned int>(pRegion->shScanCount); ++unScanIndex)
 			{
 				TWmfScanObject *pScanObject = &pRegion->pScans[unScanIndex];
 
@@ -1019,7 +1019,7 @@ namespace MetaFile
 
 		if (NULL != pRegion)
 		{
-			for (unsigned int unScanIndex = 0; unScanIndex < pRegion->shScanCount; ++unScanIndex)
+			for (unsigned int unScanIndex = 0; unScanIndex < static_cast<unsigned int>(pRegion->shScanCount); ++unScanIndex)
 			{
 				TWmfScanObject *pScanObject = &pRegion->pScans[unScanIndex];
 
@@ -1066,7 +1066,7 @@ namespace MetaFile
 
 		if (NULL != pRegion)
 		{
-			for (unsigned int unScanIndex = 0; unScanIndex < pRegion->shScanCount; ++unScanIndex)
+			for (unsigned int unScanIndex = 0; unScanIndex < static_cast<unsigned int>(pRegion->shScanCount); ++unScanIndex)
 			{
 				TWmfScanObject *pScanObject = &pRegion->pScans[unScanIndex];
 
@@ -1134,7 +1134,7 @@ namespace MetaFile
 
 		MoveTo(arPoints[0].X, arPoints[0].Y);
 
-		for (short shIndex = 1; shIndex < arPoints.size(); shIndex++)
+		for (size_t shIndex = 1; shIndex < arPoints.size(); shIndex++)
 			LineTo(arPoints[shIndex].X, arPoints[shIndex].Y);
 
 		DrawPath(true, false);
@@ -1150,7 +1150,7 @@ namespace MetaFile
 
 		MoveTo(arPoints[0].X, arPoints[0].Y);
 
-		for (short shIndex = 1; shIndex < arPoints.size(); shIndex++)
+		for (size_t shIndex = 1; shIndex < arPoints.size(); shIndex++)
 			LineTo(arPoints[shIndex].X, arPoints[shIndex].Y);
 
 		ClosePath();
