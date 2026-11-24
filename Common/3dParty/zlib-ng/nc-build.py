@@ -137,7 +137,7 @@ def build_and_install():
     # zlib-ng built above. Turn it off so zlib-ng is used, as on Linux/Windows.
     minizip_apple_args = [
         "-DMZ_LIBCOMP=OFF",
-    ] if nc.is_apple_silicon() else []
+    ] if nc.is_macos() else []
 
     nc.run_command(
         [

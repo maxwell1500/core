@@ -116,7 +116,7 @@ def build_and_install():
             nc.work_dir
         )
 
-    elif nc.is_apple_silicon():
+    elif nc.is_macos():
         nc.run_command(
             [   "./config",
                 f"--prefix={nc.install_dir}",

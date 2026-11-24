@@ -74,8 +74,8 @@ def cef_platform() -> str:
         return "windowsarm64" if nc.is_arm64() else "windows64"
     elif nc.is_linux():
         return "linuxarm64" if nc.is_arm64() else "linux64"
-    elif nc.is_apple_silicon():
-        return "macosarm64"
+    elif nc.is_macos():
+        return "macosarm64" if nc.is_arm64() else "macosx64"
     else:
         nc.abort_op( f"Unsupported platform for prebuilt CEF: {sys.platform}" )
 

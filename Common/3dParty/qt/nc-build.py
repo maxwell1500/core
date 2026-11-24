@@ -65,7 +65,7 @@ def detect_host_and_arch():
             return "linux_arm64", "linux_gcc_arm64"
         return "linux", "linux_gcc_64"
 
-    elif nc.is_apple_silicon():
+    elif nc.is_macos():
         return "mac", "clang_64"
 
     else:

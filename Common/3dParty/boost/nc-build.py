@@ -89,7 +89,7 @@ def build_and_install():
     nc.create_install_dir()
     
     print( "Running bootstrap..." )
-    if nc.is_linux() or nc.is_apple_silicon():
+    if nc.is_linux() or nc.is_macos():
         nc.run_command(
             [ "./bootstrap.sh", f"--prefix={ nc.install_dir }" ],
             "Running bootstrap",
@@ -154,9 +154,9 @@ option.set keep-going : false ;
         else:
             build_cmd.append( "architecture=x86" )
             build_cmd.append( "abi=sysv" )
-    elif nc.is_apple_silicon():
+    elif nc.is_macos():
         build_cmd.append( "toolset=clang" )
-        build_cmd.append( "architecture=arm" )
+        build_cmd.append( f"architecture={ 'arm' if nc.is_arm64() else 'x86' }" )
         build_cmd.append( "address-model=64" )
     build_cmd.append( "install" )
 

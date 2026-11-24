@@ -122,6 +122,9 @@ def target_arch() -> str:
 def is_arm64() -> bool:
     return target_arch() == "arm64"
 
+def is_macos() -> bool:
+    return sys.platform == "darwin"
+
 def is_apple_silicon() -> bool:
     return sys.platform == "darwin" and platform.machine() == "arm64"
 

@@ -42,7 +42,7 @@ clang_shim_path = nc.work_dir / "clang-base"
 
 def check_prequisites():
     tools_needed = [ "git" ]
-    if nc.is_linux() or nc.is_apple_silicon():
+    if nc.is_linux() or nc.is_macos():
         tools_needed.append( "clang" )
     for tool in tools_needed:
         if shutil.which( tool ) is None:
@@ -261,7 +261,7 @@ def _make_clang_base( bin_dir : Path, builtins : dict[ str, Path | None ], repla
 
 def prepare_clang_base() -> tuple[ Path, str ]:
     # Linux and macOS: the clang on PATH, with its own builtins
-    if nc.is_apple_silicon():
+    if nc.is_macos():
         bin_dir = _find_mac_llvm_bin_dir()
         wanted = "darwin/libclang_rt.osx.a"
     else:
@@ -270,7 +270,7 @@ def prepare_clang_base() -> tuple[ Path, str ]:
         wanted = f"{ triple_dir }/libclang_rt.builtins.a"
 
     clang = str( bin_dir / "clang" )
-    if nc.is_apple_silicon():
+    if nc.is_macos():
         # in the resource dir, where gn looks too
         resource_dir = Path( nc.capture_process_output( [ clang, "-print-resource-dir" ] ).strip() )
         builtins = resource_dir / "lib" / wanted
@@ -280,7 +280,7 @@ def prepare_clang_base() -> tuple[ Path, str ]:
         nc.abort_op( f"clang builtins { builtins } not found. Is compiler-rt installed?" )
 
     # On macOS against the SDK's libc++, like core, not Homebrew's
-    return _make_clang_base( bin_dir, { wanted: builtins }, link_tools = nc.is_apple_silicon() )
+    return _make_clang_base( bin_dir, { wanted: builtins }, link_tools = nc.is_macos() )
 
 def _homebrew_prefix( formula : str ) -> Path | None:
     for prefix in ( "/opt/homebrew/opt", "/usr/local/opt" ):
@@ -297,11 +297,11 @@ def _find_mac_llvm_bin_dir() -> Path:
         nc.abort_op( "V8 on macOS needs a full LLVM: brew install llvm lld (or set LLVM_DIR)" )
     return llvm_dir / "bin"
 
-def mac_lld_bin_dir() -> Path:
+def mac_lld_bin_dir() -> Path | None:
     for candidate in ( _find_mac_llvm_bin_dir(), ( _homebrew_prefix( "lld" ) or Path( "/nonexistent" ) ) / "bin" ):
         if ( candidate / "ld64.lld" ).exists():
             return candidate
-    nc.abort_op( "V8 on macOS needs lld: brew install lld" )
+    return None
 
 def prepare_android_clang_base() -> tuple[ Path, str ]:
     # The NDK's clang. It also builds the host tools (mksnapshot, torque) for
@@ -445,14 +445,15 @@ use_glib=false
 use_lld=true
 """
 
-    elif nc.is_apple_silicon():
+    elif nc.is_macos():
         # Uses the system (Xcode command line tools) clang
         clang_base, clang_major = prepare_clang_base()
+        lld_extra = "" if mac_lld_bin_dir() is not None else 'use_lld=false\n'
         gn_args += f"""
 target_os="mac"
 clang_base_path="{clang_base}"
 clang_version="{clang_major}"
-"""
+{lld_extra}"""
 
     elif nc.is_windows():
         clang_base, clang_major = prepare_windows_clang_base()
@@ -575,9 +576,11 @@ def build_and_install():
     ninja_bin_path = v8_src_path / "third_party" / "ninja" / f"ninja{exe}"
 
     gn_env = depot_env()
-    if nc.is_apple_silicon():
-        # clang looks for ld64.lld on PATH
-        gn_env[ "PATH" ] = f"{ mac_lld_bin_dir() }{ os.pathsep }{ gn_env[ 'PATH' ] }"
+    if nc.is_macos():
+        lld_dir = mac_lld_bin_dir()
+        if lld_dir is not None:
+            # clang looks for ld64.lld on PATH
+            gn_env[ "PATH" ] = f"{ lld_dir }{ os.pathsep }{ gn_env[ 'PATH' ] }"
     if nc.is_windows():
         gn_env[ "vs2022_install" ] = str( Path( os.environ[ "VSINSTALLDIR" ] ) )
 
